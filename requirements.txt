@@ -1,0 +1,13 @@
+# for download Coursera Materials
+setuptools
+coursera-helper    
+# for RAG
+rich
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langchain-chroma
+pydantic-settings
+pysrt # for srt file
+bs4 # for html file
