@@ -34,7 +34,7 @@ class CourseAgent:
         self.course_name = course_name
         self.collection_name = course_name
         self.timestamp = f"{course_name}-{time.strftime('%Y-%m-%d-%H-%M-%S')}"
-        self.src_dir = f"{coursera_config.ROOT_FOLDER}/{self.course_name}"
+        self.src_dir = f"{coursera_config.INPUT_ROOT_FOLDER}/{self.course_name}"
         self.dist_dir = f"{coursera_config.RESULT_ROOT_FOLDER}/{self.timestamp}"
         self.final_file_path = f"{self.dist_dir}/final-{self.timestamp}.md"
         self.logger = get_logger()

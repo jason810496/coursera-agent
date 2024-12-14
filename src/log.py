@@ -64,7 +64,7 @@ def get_logger():
 
 def print_course_tree(course:Course):
     tree = Tree(
-        f":open_file_folder: [link file://{coursera_config.ROOT_FOLDER}/{course.name}]{course.name}",
+        f":open_file_folder: [link file://{coursera_config.INPUT_ROOT_FOLDER}/{course.name}]{course.name}",
         # f"{course.name}",
         guide_style="dark_blue",
     )

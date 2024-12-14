@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class CourseraConfig(BaseSettings):
-    ROOT_FOLDER:str = Field(default='.')
-    COURSE_NAME:str = Field(default='Python for Everybody')
+    INPUT_ROOT_FOLDER:str = Field(default='.')
     EXCLUDE_WEEKS:list = Field(default=[])
     RESULT_ROOT_FOLDER:str = Field(default='.')
 
@@ -34,7 +33,7 @@ langchain_config = LangChainConfig()
 
 class ChromaConfig(BaseSettings):
     HOST:str = Field(default='127.0.0.1')
-    PORT:int = Field(default=8000)
+    PORT:int = Field(default=8888)
 
     model_config = SettingsConfigDict(
         env_prefix='CHROMA_',
