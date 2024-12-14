@@ -10,6 +10,7 @@ class CourseraConfig(BaseSettings):
     INPUT_ROOT_FOLDER:str = Field(default='.')
     EXCLUDE_WEEKS:list = Field(default=[])
     RESULT_ROOT_FOLDER:str = Field(default='.')
+    PROMPTS_FOLDER:str = Field(default='./prompts')
 
     model_config = SettingsConfigDict(
         env_prefix='COURSERA_',

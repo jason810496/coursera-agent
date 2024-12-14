@@ -1,0 +1,6 @@
+- Is {key_point} a concept or a project?
+- Answer in one word: `concept` or `project`
+
+for example:
+- input: `Variables` , output: `concept`
+- input: `Guess the number game` , output: `project`

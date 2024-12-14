@@ -19,12 +19,14 @@ from src.schema import (
 from src.rag.core import save_file, get_retriever , get_llm
 from src.rag.chain import (
     get_rag_chain,
+)
+from src.rag.prompts import (
     course_toc_template,
     week_toc_template,
     week_item_toc_template,
     is_concept_or_project_template,
     concept_slide_template,
-    project_slide_template,
+    project_slide_template
 )
 from src.rag.vector_database import delete_collection
 

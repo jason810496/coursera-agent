@@ -1,0 +1,10 @@
+Give the whole course table of content in markdown list format.
+
+for example:
+```
+- Week 0: Introduction video, CodeSkulptor, Python arithmetic expressions, practice exercises, variables, Code Sculptor, practice exercises, quiz
+- Week 1: Quiz, rock paper scissors lizard Spock mini project
+- Week 2: Guess the number game
+- Week 3: Digital stopwatch game
+- Week 4: Pong game 
+```
