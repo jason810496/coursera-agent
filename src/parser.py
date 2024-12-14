@@ -24,6 +24,19 @@ def _get_course_subtitle_files(path:str) -> list[CourseSubtitleFile]:
         if f.name.endswith('.srt')
     ]
 
+def _get_course_html_files(path:str) -> list[CourseSubtitleFile]:
+    '''
+    get all html files in path
+    '''
+    return [
+        CourseSubtitleFile(
+            name=f.name,
+            path=f.path
+        )
+        for f in os.scandir(path)
+        if f.name.endswith('.html')
+    ]
+
 def _get_course_week_items(path:str) -> list[CourseWeekItem]:
     '''
     get all week items in path
@@ -32,7 +45,7 @@ def _get_course_week_items(path:str) -> list[CourseWeekItem]:
         CourseWeekItem(
             name=f.name,
             path=f.path,
-            items=_get_course_subtitle_files(f.path)
+            items=_get_course_subtitle_files(f.path) + _get_course_html_files(f.path)
         )
         for f in os.scandir(path)
         if f.is_dir()

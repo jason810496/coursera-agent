@@ -22,8 +22,13 @@ def save_file(
         rich_print(f"Adding documents [bold]{path.split('/')[-1]}[/bold] to collection [bold]{collection_name}[/bold]")
     else:
         rich_print(f"Processing [bold]{path.split('/')[-1]}[/bold]")
-        
-    langchain_chroma.add_documents(documents=documents)
+    
+    try:
+        langchain_chroma.add_documents(documents=documents)
+    except Exception as e:
+        rich_print(f"Error adding documents to collection {collection_name}")
+        rich_print(e)
+        return
 
 
 def get_retriever(
