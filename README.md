@@ -5,21 +5,23 @@
 
 1. Install python packages
 >Recommended to use `uv` to install python packages in a virtual environment.
-```
+```bash
 uv python pin 3.12  
 uv venv
 uv pip install -r requirements.txt
 ```
-2. Create `input`, `output` and `prompts` directories
-```
-mkdir input output prompts
+2. Create `input`, `output` directories and overwrite `prompts` directory
+```bash
+mkdir input output
+cp -r examples_prompts prompts
+# overwrite your own prompts
 ```
 3. Create `.env` file with OpenAI API Key and other configurations
-```
+```bash
 OPENAI_API_KEY=sk-xxxx
 ```
 4. Start Chroma Vector Database
-```
+```bash
 docker compose up -d
 ```
 

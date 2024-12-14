@@ -2,10 +2,7 @@ import asyncio
 import os 
 import time
 
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
-
-from src.config import coursera_config, chroma_config, langchain_config
+from src.config import coursera_config, chroma_config, langchain_config, runtime_config
 from src.parser import get_course as parser_get_course
 from src.log import rich_print, get_logger
 from src.schema import (
@@ -142,11 +139,19 @@ class CourseAgent:
         self.retriever = get_retriever(self.collection_name)
         self.llm = get_llm()
         self.rag_chain = get_rag_chain(self.retriever, self.llm)
+        if runtime_config.VERBOSE:
+            self.logger.debug("RAG chain initialized")
+            self.logger.debug(self.rag_chain)
+            self.logger.debug(self.retriever)
+            self.logger.debug(self.llm)
 
     def _gen_course(self) -> CourseResult:
         self._init_rag_chain()
         # get course table of content
         self.course_toc_resp:str = self.rag_chain.invoke(course_toc_template)
+        if runtime_config.VERBOSE:
+            self.logger.debug("Course Table of Content")
+            self.logger.debug(self.course_toc_resp)
         self.course_toc:list = self._parse_markdown_list(self.course_toc_resp)
         self.logger.debug("Course Table of Content")
         self.logger.debug(self.course_toc_resp)
