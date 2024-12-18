@@ -1,10 +1,10 @@
-# Coursera Agent : Generate PDF using RAG with OpenAPI + Chroma Vector Database
+# Coursera Agent : Generate PDF using RAG with [LangChain](https://python.langchain.com/docs/introduction/) + [Chroma Vector Database](https://docs.trychroma.com/)
 
 
 ## Setup Coursera Agent Python Environment
 
 1. Install python packages
->Recommended to use `uv` to install python packages in a virtual environment.
+>Recommended to use [uv](https://docs.astral.sh/uv/) to install python packages in a virtual environment.
 ```bash
 uv python pin 3.12  
 uv venv
@@ -51,22 +51,24 @@ usage: main.py [-h] [-v] [-q] [-i] {check,info,load,delete,generate} ...
 main.py: error: the following arguments are required: verb
 ```
 
-Check current settings
+1. Check current settings is valid
 ```
 uv run python main.py check <course-name>
 ```
 
-Get course information
+2. Get course information, will list all materials to be loaded
 ```
 uv run python main.py info <course-name>
 ```
 
-Load course materials
+3. Load course materials into Chroma Vector Database
 ```
 uv run python main.py load <course-name>
 ```
 
-Generate PDF
+4. Generate PDF
+> [!NOTE]  
+> Should install [marp-cli](https://github.com/marp-team/marp-cli) to generate PDF from markdown.
 ```
 uv run python main.py generate <course-name>
 ```
