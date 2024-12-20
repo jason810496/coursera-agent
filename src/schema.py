@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 
 
 # schema for store metadata reading from course directory
-class CourseSubtitleFile(BaseModel):
+class CourseFile(BaseModel):
     name: str = Field(examples="01_introduction.en.srt")
     path: str = Field(
         examples="/path/to/interactive-python-1/01_week-0-statements-expressions-variables/01_week-0a-expressions/01_introduction.en.srt"
@@ -14,7 +14,7 @@ class CourseWeekItem(BaseModel):
     path: str = Field(
         examples="/path/to/interactive-python-1/01_week-0-statements-expressions-variables/01_week-0a-expressions"
     )
-    items: list[CourseSubtitleFile] = Field(min_length=0)  # allow empty list
+    items: list[CourseFile] = Field(min_length=0)  # allow empty list
 
 
 class CourseWeek(BaseModel):
@@ -44,17 +44,17 @@ class KeyPoint(BaseModel):
 
 class CourseWeekItemResult(BaseModel):
     name: str = Field(examples="01_week-0a-expressions")
-    toc: str = Field(examples="01_week-0a-expressions")
+    toc: str | None = Field(examples="01_week-0a-expressions")
     items: list[KeyPoint] = Field(min_length=0)  # allow empty list
 
 
 class CourseWeekResult(BaseModel):
     name: str = Field(examples="01_week-0-statements-expressions-variables")
-    toc: str = Field(examples="01_week-0-statements-expressions-variables")
+    toc: str | None = Field(examples="01_week-0-statements-expressions-variables")
     items: list[CourseWeekItemResult] = Field(min_length=0)  # allow empty list
 
 
 class CourseResult(BaseModel):
     name: str = Field(examples="interactive-python-1")
-    toc: str = Field(examples="01_week-0-statements-expressions-variables")
+    toc: str | None = Field(examples="01_week-0-statements-expressions-variables")
     weeks: list[CourseWeekResult] = Field(min_length=0)  # allow empty list

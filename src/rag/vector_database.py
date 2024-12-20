@@ -1,7 +1,8 @@
 """
-reference: 
+reference:
 https://python.langchain.com/v0.2/docs/integrations/vectorstores/chroma/
 """
+
 from typing import List
 
 from langchain_chroma import Chroma

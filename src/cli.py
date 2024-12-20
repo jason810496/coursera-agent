@@ -29,15 +29,26 @@ def get_cli_args() -> tuple[VerbEnum, str]:
         "--algorithm",
         help="the algorithm to use",
         action="store",
-        choices=list(AlgorithmEnum),
-        default=AlgorithmEnum.RAG,
+        choices=[algorithm.value for algorithm in AlgorithmEnum],
+        default=AlgorithmEnum.RAG.value,
     )
     parser.add_argument(
         "--storage",
         help="the storage to use",
         action="store",
-        choices=list(StorageEnum),
-        default=StorageEnum.CHROMA,
+        choices=[storage.value for storage in StorageEnum],
+        default=StorageEnum.CHROMA.value,
+    )
+    parser.add_argument(
+        "--skip-project",
+        help="skip to check whether the key point is a project or a concept, default is True",
+        action=argparse.BooleanOptionalAction,
+    )
+    parser.add_argument(
+        "--exclude-file-pattern",
+        help="exclude file pattern",
+        action="store",
+        type=str,
     )
 
     # Add the verbs
@@ -139,5 +150,7 @@ def _update_runtime_config(args):
     runtime_config.QUIET = args.quiet
     runtime_config.INTERACTIVE = args.interactive
     runtime_config.ALGORITHM = args.algorithm
+    runtime_config.SKIP_PROJECT = args.skip_project
+    runtime_config.EXCLUDE_PATTERN = args.exclude_file_pattern
 
     return args

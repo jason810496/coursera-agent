@@ -1,37 +1,45 @@
 """
 get file path and load to schema
 """
-import os
 
-from .schema import (
+import os
+import re
+
+from src.schema import (
     Course,
     CourseWeek,
     CourseWeekItem,
-    CourseSubtitleFile,
+    CourseFile,
 )
-from .config import coursera_config
+from src.config import coursera_config, runtime_config
+from src.log import get_logger
+
+logger = get_logger()
 
 
-def _get_course_subtitle_files(path: str) -> list[CourseSubtitleFile]:
+def _get_course_files(path: str) -> list[CourseFile]:
     """
-    get all srt files in path
+    get all files in path
     """
-    return [
-        CourseSubtitleFile(name=f.name, path=f.path)
-        for f in os.scandir(path)
-        if f.name.endswith(".srt")
-    ]
+    course_files = []
+    for f in os.scandir(path):
+        if f.is_dir():
+            course_files.extend(_get_course_files(f.path))
+        else:
+            if not (f.name.endswith(".html") or f.name.endswith(".srt")):
+                logger.debug(f"Skipping file: {f.name}")
+                continue
+            # check exclude pattern
+            logger.debug(f"Checking file: {f.name}")
+            if (
+                runtime_config.EXCLUDE_PATTERN is not None
+                and re.search(runtime_config.EXCLUDE_PATTERN, f.name) is not None
+            ):
+                logger.debug(f"Skipping file: {f.name}")
+                continue
+            course_files.append(CourseFile(name=f.name, path=f.path))
 
-
-def _get_course_html_files(path: str) -> list[CourseSubtitleFile]:
-    """
-    get all html files in path
-    """
-    return [
-        CourseSubtitleFile(name=f.name, path=f.path)
-        for f in os.scandir(path)
-        if f.name.endswith(".html")
-    ]
+    return course_files
 
 
 def _get_course_week_items(path: str) -> list[CourseWeekItem]:
@@ -42,7 +50,7 @@ def _get_course_week_items(path: str) -> list[CourseWeekItem]:
         CourseWeekItem(
             name=f.name,
             path=f.path,
-            items=_get_course_subtitle_files(f.path) + _get_course_html_files(f.path),
+            items=_get_course_files(f.path),
         )
         for f in os.scandir(path)
         if f.is_dir()

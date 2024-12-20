@@ -55,6 +55,8 @@ class RuntimeConfig(BaseSettings):
     QUIET: bool = Field(default=False)
     INTERACTIVE: bool = Field(default=False)
     ALGORITHM: AlgorithmEnum = Field(default=AlgorithmEnum.RAG)
+    SKIP_PROJECT: bool = Field(default=True)
+    EXCLUDE_PATTERN: Optional[str] = Field(default=None)
 
 
 runtime_config = RuntimeConfig()
