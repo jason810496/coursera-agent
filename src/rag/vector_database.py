@@ -1,7 +1,7 @@
-'''
+"""
 reference: 
 https://python.langchain.com/v0.2/docs/integrations/vectorstores/chroma/
-'''
+"""
 from typing import List
 
 from langchain_chroma import Chroma
@@ -12,7 +12,7 @@ from langchain_core.embeddings import Embeddings
 from langchain_core.documents import Document
 
 from ..config import chroma_config
-from src.log import rich_print , get_logger
+from src.log import rich_print, get_logger
 
 
 def get_chroma_client():
@@ -21,22 +21,25 @@ def get_chroma_client():
         port=chroma_config.PORT,
     )
 
+
 def create_collection(
-    collection_name:str,
-    chroma_client:ClientAPI = get_chroma_client(),
+    collection_name: str,
+    chroma_client: ClientAPI = get_chroma_client(),
 ):
     _ = chroma_client.get_or_create_collection(collection_name)
-    return 
+    return
+
 
 def check_collection(
-    collection_name:str,
-    chroma_client:ClientAPI = get_chroma_client(),
+    collection_name: str,
+    chroma_client: ClientAPI = get_chroma_client(),
 ):
     return collection_name in chroma_client.list_collections()
 
+
 def delete_collection(
-    collection_name:str,
-    chroma_client:ClientAPI = get_chroma_client(),
+    collection_name: str,
+    chroma_client: ClientAPI = get_chroma_client(),
 ):
     # check if collection exists
     logger = get_logger()
@@ -44,11 +47,15 @@ def delete_collection(
     logger.debug(chroma_client.list_collections())
     exist = collection_name in chroma_client.list_collections()
     if not exist:
-        rich_print(f"[bold][red]ERROR[/red][/bold] Collection [bold]{collection_name}[/bold] does not exist.")
+        rich_print(
+            f"[bold][red]ERROR[/red][/bold] Collection [bold]{collection_name}[/bold] does not exist."
+        )
         return
-    
+
     # delete the collection
-    rich_print(f"Are you sure you want to delete collection [bold]{collection_name}[/bold] ? (y/n)")
+    rich_print(
+        f"Are you sure you want to delete collection [bold]{collection_name}[/bold] ? (y/n)"
+    )
     user_check = input()
     if user_check != "y":
         rich_print("Aborted.")
@@ -61,12 +68,12 @@ def delete_collection(
 
 
 def get_langchain_chroma(
-    collection_name:str,
-    embeddings:Embeddings,
-    chroma_client:ClientAPI = get_chroma_client(),
+    collection_name: str,
+    embeddings: Embeddings,
+    chroma_client: ClientAPI = get_chroma_client(),
 ):
-   # create a collection if it does not exist
-    _ = create_collection(collection_name=collection_name,chroma_client=chroma_client)
+    # create a collection if it does not exist
+    _ = create_collection(collection_name=collection_name, chroma_client=chroma_client)
 
     return Chroma(
         client=chroma_client,
@@ -74,15 +81,16 @@ def get_langchain_chroma(
         embedding_function=embeddings,
     )
 
+
 def get_lanchain_chroma_from_document(
-    collection_name:str,
-    documents:List[Document],
-    embeddings:Embeddings,
-    chroma_client:ClientAPI = get_chroma_client(),
+    collection_name: str,
+    documents: List[Document],
+    embeddings: Embeddings,
+    chroma_client: ClientAPI = get_chroma_client(),
 ):
     # create a collection if it does not exist
-    _ = create_collection(collection_name=collection_name,chroma_client=chroma_client)
-    
+    _ = create_collection(collection_name=collection_name, chroma_client=chroma_client)
+
     return Chroma.from_documents(
         documents=documents,
         collection_name=collection_name,

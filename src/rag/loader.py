@@ -13,10 +13,11 @@ test_splitter = RecursiveCharacterTextSplitter(
     add_start_index=langchain_config.ADD_START_INDEX,
 )
 
-def get_documents(path:str) -> List[Document]:
-    if path.endswith('.srt'):
+
+def get_documents(path: str) -> List[Document]:
+    if path.endswith(".srt"):
         loader = SRTLoader(path)
-    elif path.endswith('.html'):
+    elif path.endswith(".html"):
         loader = BSHTMLLoader(path)
     document = loader.load()
     chunks = test_splitter.split_documents(document)
