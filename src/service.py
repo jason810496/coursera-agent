@@ -60,19 +60,20 @@ class CourseAgent:
     def help(self):
         pass
 
-    def check_config(self):
-        self.logger.info("Current configuration:")
-        self.logger.info("CourseAgent:")
+    @staticmethod
+    def check_config():
+        logger = get_logger()
+        logger.info("Current configuration:")
+        logger.info("CourseAgent:")
         rich_print(coursera_config)
-        self.logger.info("Chroma:")
+        logger.info("Chroma:")
         rich_print(chroma_config)
-        self.logger.info("Langchain:")
+        logger.info("Langchain:")
         rich_print(langchain_config)
 
-    def get_course_info(self) -> Course:
-        if self.course is None:
-            self.course: Course = parser_get_course(self.src_dir)
-        return self.course
+    @staticmethod
+    def get_course_info(course_name: str) -> Course:
+        return parser_get_course(f"{coursera_config.INPUT_ROOT_FOLDER}/{course_name}")
 
     def load_course(self):
         if self.course is None:

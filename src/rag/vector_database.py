@@ -22,25 +22,22 @@ def get_chroma_client():
     )
 
 
-def create_collection(
-    collection_name: str,
-    chroma_client: ClientAPI = get_chroma_client(),
-):
+def create_collection(collection_name: str, chroma_client: ClientAPI | None):
+    if not chroma_client:
+        chroma_client = get_chroma_client()
     _ = chroma_client.get_or_create_collection(collection_name)
     return
 
 
-def check_collection(
-    collection_name: str,
-    chroma_client: ClientAPI = get_chroma_client(),
-):
+def check_collection(collection_name: str, chroma_client: ClientAPI | None):
+    if not chroma_client:
+        chroma_client = get_chroma_client()
     return collection_name in chroma_client.list_collections()
 
 
-def delete_collection(
-    collection_name: str,
-    chroma_client: ClientAPI = get_chroma_client(),
-):
+def delete_collection(collection_name: str, chroma_client: ClientAPI | None):
+    if not chroma_client:
+        chroma_client = get_chroma_client()
     # check if collection exists
     logger = get_logger()
     logger.debug(f"Checking if collection {collection_name} exists")
@@ -68,10 +65,10 @@ def delete_collection(
 
 
 def get_langchain_chroma(
-    collection_name: str,
-    embeddings: Embeddings,
-    chroma_client: ClientAPI = get_chroma_client(),
+    collection_name: str, embeddings: Embeddings, chroma_client: ClientAPI | None
 ):
+    if not chroma_client:
+        chroma_client = get_chroma_client()
     # create a collection if it does not exist
     _ = create_collection(collection_name=collection_name, chroma_client=chroma_client)
 
@@ -86,8 +83,10 @@ def get_lanchain_chroma_from_document(
     collection_name: str,
     documents: List[Document],
     embeddings: Embeddings,
-    chroma_client: ClientAPI = get_chroma_client(),
+    chroma_client: ClientAPI | None,
 ):
+    if not chroma_client:
+        chroma_client = get_chroma_client()
     # create a collection if it does not exist
     _ = create_collection(collection_name=collection_name, chroma_client=chroma_client)
 

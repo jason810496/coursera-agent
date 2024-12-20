@@ -4,6 +4,8 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
+from src.enums import AlgorithmEnum
+
 load_dotenv()
 
 
@@ -52,6 +54,7 @@ class RuntimeConfig(BaseSettings):
     VERBOSE: bool = Field(default=False)
     QUIET: bool = Field(default=False)
     INTERACTIVE: bool = Field(default=False)
+    ALGORITHM: AlgorithmEnum = Field(default=AlgorithmEnum.RAG)
 
 
 runtime_config = RuntimeConfig()

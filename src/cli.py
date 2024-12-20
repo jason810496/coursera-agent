@@ -4,10 +4,11 @@ from src.config import runtime_config
 from src.enums import AlgorithmEnum, EntityEnum, StorageEnum, VerbEnum
 
 
-def get_cli_args() -> argparse.Namespace:
+def get_cli_args() -> tuple[VerbEnum, str]:
     """
-    - update runtime_config with the arguments before returning
-    - return the command line arguments
+    Get the command line arguments and update the runtime_config
+
+    :return: the verb and the course_name
     """
     # Create the parser
     parser = argparse.ArgumentParser(
@@ -130,12 +131,13 @@ def get_cli_args() -> argparse.Namespace:
     # Parse the arguments
     args = parser.parse_args()
     _update_runtime_config(args)
-    return args
+    return VerbEnum(args.verb), args.course_name
 
 
 def _update_runtime_config(args):
     runtime_config.VERBOSE = args.verbose
     runtime_config.QUIET = args.quiet
     runtime_config.INTERACTIVE = args.interactive
+    runtime_config.ALGORITHM = args.algorithm
 
     return args
